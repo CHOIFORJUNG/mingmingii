@@ -25,11 +25,11 @@ public class BoardController {
 	}
 
 	@GetMapping(value = "/insert")
-	public void insertGET(@ModelAttribute BoardVO bvo){
+	public void insertGET(@ModelAttribute(name="bvo") BoardVO bvo){
 	}
 
 	@PostMapping(value = "/insert")
-	public String insertPOST(@ModelAttribute BoardVO bvo){
+	public String insertPOST(@ModelAttribute(name="bvo") BoardVO bvo){
 
 		bsvc.write(bvo);
 		return "redirect:/list/";
