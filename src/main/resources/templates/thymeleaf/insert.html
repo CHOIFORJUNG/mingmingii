@@ -1,0 +1,30 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Hello thymeleaf</title>
+</head>
+
+<body>
+<div>
+    <h3>Form에서 사용</h3>
+    <p>게시판 입력</p>
+    <form th:action="@{/list}" th:object="${BoardVO}" method="post">
+        <table border=1>
+            <tr>
+                <td>글제목</td>
+                <td>
+                    <input type="text" th:field="*{boardTitle}" placeholder="책 제목을 입력하세요">
+                </td>
+            </tr>
+            <tr>
+                <td>유저아이디</td>
+                <td>
+                    <input type="text" th:field="*{userId}" placeholder="저자명을 입력하세요">
+                </td>
+            </tr>
+
+        </table>
+        <button type="submit" >입력</button>
+    </form>
+</div>
+</body>

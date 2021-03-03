@@ -1,0 +1,25 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Hello thymeleaf</title>
+</head>
+    <body>
+
+        <h1>Hello thymeleaf</h1>
+            <table>
+                    <tr th:each="product : ${list}">
+                    <td th:text="${product.boardContents}"></td>
+                    <td th:text="${product.boardNo}"></td>
+                    <td th:text="${product.boardTitle}"></td>
+                    <td th:text="${product.userId}"></td> </tr>
+            </table>
+
+
+    </body>
+</html>
+
+
+
+
+
+
