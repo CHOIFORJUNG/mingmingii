@@ -8,7 +8,7 @@
 <div>
     <h3>Form에서 사용</h3>
     <p>게시판 입력</p>
-    <form method="POST" th:action="@{/insert}" th:object="${bvo}"  class="my-login-validation" novalidate="">
+    <form method="POST" th:action="@{insert}" th:object="${bvo}"  class="my-login-validation" novalidate="">
         <div class="form-group">
             <label for="name">Name</label>
             <input th:name="userId" id="name" type="text" class="form-control" name="name" required autofocus>

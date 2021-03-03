@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -24,14 +25,13 @@ public class BoardController {
 	}
 
 	@GetMapping(value = "/insert")
-	public void insertGET(BoardVO bvo){
+	public void insertGET(@ModelAttribute BoardVO bvo){
 	}
 
 	@PostMapping(value = "/insert")
-	public String insertPOST(BoardVO bvo, Model model){
+	public String insertPOST(@ModelAttribute BoardVO bvo){
 
 		bsvc.write(bvo);
-		model.addAttribute("result", "success");
 		return "redirect:/list/";
 	}
 }
