@@ -11,6 +11,8 @@
     </select>
 
     <insert id="insert">
-        insert into board(board_no, user_id, board_title, board_contents) values (#{boardNo},#{boardId},#{boardTitle},{boardContents})
+        insert into board (boardNo, user_id, board_title, board_content)
+        values (#{boardNo}, #{userId}, #{boardTitle}, #{boardContent})
     </insert>
+
 </mapper>

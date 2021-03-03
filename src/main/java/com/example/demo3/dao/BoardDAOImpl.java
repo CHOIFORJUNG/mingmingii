@@ -23,6 +23,6 @@ public class BoardDAOImpl implements BoardDAO{
 
     @Override
     public void insert(BoardVO bvo){
-        sqlSession.insert("namespace", bvo);
+        sqlSession.insert("insert", bvo);
     }
 }

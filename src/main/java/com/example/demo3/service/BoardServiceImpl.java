@@ -18,15 +18,12 @@ public class BoardServiceImpl implements BoardService {
 
 
 	@Override
-
-
 	public List<BoardVO> listAll() {
 		return bdao.list();
 	}
 
 	@Override
-	public void write(BoardVO bvo){
-		bdao.insert(bvo);
-	}
+	public void write(BoardVO bvo) {
+		bdao.insert(bvo);}
 }
 

@@ -5,15 +5,14 @@ import com.example.demo3.vo.BoardVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
+@RequestMapping(value = "/")
 @Controller
 public class BoardController {
 
 	@Autowired
-	 private BoardService bsvc;
+	private BoardService bsvc;
 
 	@GetMapping(value = "/list")
 	public String list(Model model) {
@@ -25,15 +24,24 @@ public class BoardController {
 	}
 
 	@GetMapping(value = "/insert")
-	public void insertGET(@ModelAttribute(name="bvo") BoardVO bvo){
+	public void insertGET(Model model, BoardVO bvo) {
 	}
 
 	@PostMapping(value = "/insert")
-	public String insertPOST(@ModelAttribute(name="bvo") BoardVO bvo){
-
+	public String insertPOST(Model model, BoardVO bvo) {
 		bsvc.write(bvo);
-		return "redirect:/list/";
+		return "redirect:/list";
 	}
+
+	@Controller
+	public class SimpleController {
+
+		@RequestMapping(value = "/hello", method = RequestMethod.GET)
+		public String hello(Model model) {
+			model.addAttribute("serverName", "Multipart Server!!!");
+
+			return "hello";
+		}
+	}
+
 }
-
-
