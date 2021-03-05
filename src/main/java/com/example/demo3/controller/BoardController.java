@@ -43,7 +43,7 @@ public class BoardController {
 	@PostMapping(value = "/delete")
 	public String delete(@RequestParam("boardNo") BoardVO bvo, Model model){
 		bsvc.delete(bvo.getBoardNo());
-		model.addAttribute("result", "success")
+		model.addAttribute("result", "success");
 		return "redirect:/list";
 		//form 형식의 문서를 작성 후, 서버로 보내면(POST 방식) 곧이어 다른 페이지로 리다이렉트 한다.
 	}
