@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface BoardService {
 
-    public List<BoardVO> listAll();
-    public void write(BoardVO bvo);
+     List<BoardVO> listAll();
+     void write(BoardVO bvo);
+     BoardVO reading(Integer boardNo);
+     void delete(Integer boardNo);
 }

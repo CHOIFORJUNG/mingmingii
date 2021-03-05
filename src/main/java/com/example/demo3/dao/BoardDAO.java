@@ -3,12 +3,15 @@ package com.example.demo3.dao;
 import java.util.List;
 
 import com.example.demo3.vo.BoardVO;
-import org.apache.ibatis.annotations.Mapper;
 
 public interface BoardDAO {
 
-	public List<BoardVO> list();
+	 List<BoardVO> list();
 
-	public void insert(BoardVO bvo);
+	 void insert(BoardVO bvo);
+
+	 BoardVO read(Integer boardNo);
+
+	 void delete(Integer boardNo);
 	
 }

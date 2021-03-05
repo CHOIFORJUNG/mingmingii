@@ -9,10 +9,12 @@
         <h1>Hello thymeleaf</h1>
             <table>
                     <tr th:each="product : ${list}">
-                    <td th:text="${product.boardContents}"></td>
                     <td th:text="${product.boardNo}"></td>
-                    <td th:text="${product.boardTitle}"></td>
-                    <td th:text="${product.userId}"></td> </tr>
+                    <td th:text="${product.userId}"></td>
+                    <td> <a th:href="@{/read(boardNo=${product.boardNo})}">
+                        [[${product.boardTitle}]]</a>
+                    </td>
+                    </tr>
             </table>
 
 

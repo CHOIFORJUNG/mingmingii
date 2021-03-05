@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-@RequestMapping(value = "/")
 @Controller
 public class BoardController {
 
@@ -24,24 +24,27 @@ public class BoardController {
 	}
 
 	@GetMapping(value = "/insert")
-	public void insertGET(Model model, BoardVO bvo) {
+	public String insertGET() {
+		return "thymeleaf/insert";
 	}
 
 	@PostMapping(value = "/insert")
-	public String insertPOST(Model model, BoardVO bvo) {
+	public String insertPOST(@ModelAttribute(name="bvo") BoardVO bvo) {
 		bsvc.write(bvo);
 		return "redirect:/list";
 	}
 
-	@Controller
-	public class SimpleController {
+	@GetMapping(value = "/read")
+	public String reading(@RequestParam("boardNo") int boardNo, Model model){
+		model.addAttribute("read", bsvc.reading(boardNo));
+		return "thymeleaf/read";
+	}
 
-		@RequestMapping(value = "/hello", method = RequestMethod.GET)
-		public String hello(Model model) {
-			model.addAttribute("serverName", "Multipart Server!!!");
-
-			return "hello";
-		}
+	@PostMapping(value = "/delete")
+	public String deletePOST(@RequestParam("boardNo") int boardNo){
+		bsvc.delete(boardNo);
+		return "redirect:/list";
+		//form 형식의 문서를 작성 후, 서버로 보내면(POST 방식) 곧이어 다른 페이지로 리다이렉트 한다.
 	}
 
 }
