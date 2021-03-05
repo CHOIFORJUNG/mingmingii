@@ -7,18 +7,40 @@
 </head>
 <body>
 <form role="form" method="post" >
-    <input type="hidden" name="boardNo" value="${read.boardNo}"/>
+    <input type="hidden" name="boardNo" value="${BoardVO.boardNo}"/>
 </form>
 
-<form>
+<form class="form-horizontal style-form" method="post">
     <div class="container">
-        <p>글번호 : [[${read.boardNo}]]</p>
-        <p>작성자 : [[${read.userId}]]</p>
-        <p>제목 : [[${read.boardTitle}]]</p>
-        <p>내용 : [[${read.boardContents}]]</p>
-        <button type="submit" class="menu-button">삭제하기</button>
+        <p>글번호 : [[${BoardVO.boardNo}]]</p>
+        <p>작성자 : [[${BoardVO.userId}]]</p>
+        <p>제목 : [[${BoardVO.boardTitle}]]</p>
+        <p>내용 : [[${BoardVO.boardContents}]]</p>
+        <button type="submit" id="menu-button">삭제하기</button>
     </div>
 </form>
+
+<script>
+    // $(document).ready(function() {
+    //     var frmObj = $("form[role='form']");
+    //     console.log("폼태그입니다..");
+
+        $(".menu-button").on("click", function () {
+            var boardNo = $("BoardVO.boardNo").val();
+            $.ajax({
+                url: "/delete",
+                data: "boardNo=" + boardNo,
+                type: "POST",
+                success : function(data){
+                    alert("성공")
+                },
+                error : function(){
+                    alert("에러")
+                }
+            });
+        });
+
+</script>
 <!--<th:block layout:fragment="script">-->
 <!--    <script th:inline="javascript">-->
 <!--        /*<![CDATA[*/-->
@@ -45,18 +67,6 @@
 <!--<div>-->
 <!--    <button th:type="submit" class="menu-button">삭제하기</button>-->
 <!--</div>-->
-<script>
-    $(document).ready(function() {
-        var frmObj = $("form[role='form']");
-
-        console.log("폼태그입니다..");
-
-        $(".menu-button").on("click", function () {
-            frmObj.attr("action", "/delete");
-            frmObj.submit();
-        });
-    })
-</script>
 
 
 </body>

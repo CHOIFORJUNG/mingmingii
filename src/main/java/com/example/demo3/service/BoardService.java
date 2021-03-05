@@ -10,4 +10,5 @@ public interface BoardService {
      void write(BoardVO bvo);
      BoardVO reading(Integer boardNo);
      void delete(Integer boardNo);
+     void modify(BoardVO bvo);
 }

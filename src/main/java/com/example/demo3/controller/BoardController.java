@@ -36,15 +36,23 @@ public class BoardController {
 
 	@GetMapping(value = "/read")
 	public String reading(@RequestParam("boardNo") int boardNo, Model model){
-		model.addAttribute("read", bsvc.reading(boardNo));
+		model.addAttribute("BoardVO", bsvc.reading(boardNo));
 		return "thymeleaf/read";
 	}
 
 	@PostMapping(value = "/delete")
-	public String deletePOST(@RequestParam("boardNo") int boardNo){
-		bsvc.delete(boardNo);
+	public String delete(@RequestParam("boardNo") BoardVO bvo, Model model){
+		bsvc.delete(bvo.getBoardNo());
+		model.addAttribute("result", "success")
 		return "redirect:/list";
 		//form 형식의 문서를 작성 후, 서버로 보내면(POST 방식) 곧이어 다른 페이지로 리다이렉트 한다.
 	}
+
+//	@GetMapping(value = "/update")
+//	public String modifyGET(@RequestParam("boardNo"), int boardNo, Model model){
+//		model.addAttribute("")
+//	}
+//	@PostMapping(value = "/update")
+//	public String modify()
 
 }

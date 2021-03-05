@@ -33,8 +33,19 @@
         where board_no=#{boardNo}
     </select>
 
+    <update id="update">
+        update board set board_title=#{boardTitle},
+                         user_id=#{userId},
+                         board_contents=#{boardContents}
+        where board_no=#{boardNo}
+    </update>
+
     <delete id="delete" >
-        delete from board where board_no=${boardNo}
+        delete from board where boardNo=${boardNo}
     </delete>
+
+
+
+
 
 </mapper>

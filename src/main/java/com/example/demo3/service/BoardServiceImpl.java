@@ -36,6 +36,11 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void delete(Integer boardNo){
 		bdao.delete(boardNo);
-	};
+	}
+
+	@Override
+	public void modify(BoardVO bvo) {
+		bdao.update(bvo);
+	}
 }
 

@@ -13,5 +13,9 @@ public interface BoardDAO {
 	 BoardVO read(Integer boardNo);
 
 	 void delete(Integer boardNo);
+
+	 void update(BoardVO bvo);
+
+
 	
 }
