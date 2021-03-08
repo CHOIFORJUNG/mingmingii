@@ -6,46 +6,41 @@
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 </head>
 <body>
-<form role="form" method="post" >
-    <input type="hidden" name="boardNo" value="${BoardVO.boardNo}"/>
-</form>
+<!--<form role="form" method="post" >-->
+<!--    <input type="hidden" name="boardNo" value="${BoardVO.boardNo}"/>-->
+<!--</form>-->
 
-<form class="form-horizontal style-form" method="post">
+
     <div class="container">
         <p>글번호 : [[${BoardVO.boardNo}]]</p>
         <p>작성자 : [[${BoardVO.userId}]]</p>
         <p>제목 : [[${BoardVO.boardTitle}]]</p>
         <p>내용 : [[${BoardVO.boardContents}]]</p>
-        <button type="submit" id="menu-button">삭제하기</button>
+        <button th:onclick="deleteBoard([[${BoardVO.boardNo}]])">삭제하기</button>
+        <button th:onclick="modifyBoard([[${BoardVO.boardNo}]])">수정하기</button>
+
     </div>
-</form>
+
 
 <script>
-    // $(document).ready(function() {
-    //     var frmObj = $("form[role='form']");
-    //     console.log("폼태그입니다..");
+    function deleteBoard(boardNo){
+        if (boardNo != null){
+            $(location).attr('href','/delete?boardNo='+boardNo);
+        }
+    }
 
-        $(".menu-button").on("click", function () {
-            var boardNo = $("BoardVO.boardNo").val();
-            $.ajax({
-                url: "/delete",
-                data: "boardNo=" + boardNo,
-                type: "POST",
-                success : function(data){
-                    alert("성공")
-                },
-                error : function(){
-                    alert("에러")
-                }
-            });
-        });
-
+    function modifyBoard(boardNo){
+        if (boardNo != null){
+            $(location).attr('href','/update?boardNo='+boardNo)
+        }
+    }
 </script>
 <!--<th:block layout:fragment="script">-->
 <!--    <script th:inline="javascript">-->
 <!--        /*<![CDATA[*/-->
 
 <!--        function deletePOST(boardNo){-->
+
 
 <!--            if (confirm(boardNo + "번 게시글을 삭제할까요?")) {-->
 <!--                var uri = /*[[ @{/board/delete.do} ]]*/;-->
