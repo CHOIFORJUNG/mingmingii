@@ -59,5 +59,5 @@ public class BoardController {
 			bsvc.modify(bvo);
 			reAttr.addFlashAttribute("result","modifyOK");
 			return "redirect:/list";
-	}
+	} //https://oolaf.tistory.com/105
 }

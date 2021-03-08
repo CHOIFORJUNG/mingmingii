@@ -33,7 +33,7 @@
         where board_no=#{boardNo}
     </select>
 
-    <update id="update">
+    <update id="update" parameterType="com.example.demo3.vo.BoardVO">
         update board set board_title=#{boardTitle},
                          board_contents=#{boardContents},
                          user_id=#{userId}
