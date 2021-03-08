@@ -27,7 +27,7 @@
 <!--    </div>-->
 <!--</form>-->
 <form th:action="@{'/update'}" method="post">
-    <input type="hidden" name="id" th:value="${bvo.boardNo}"/>
+    <input type="hidden" name="boardN" th:value="${bvo.boardNo}"/>
 
     제목 : <input type="text" name="boardTitle" th:value="${bvo.boardTitle}"> <br>
     작성자 : <input type="text" name="userId" th:value="${bvo.userId}"> <br>
