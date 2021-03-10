@@ -41,7 +41,7 @@
     </update>
 
     <delete id="delete" >
-        delete from board where board_no=${boardNo}
+        delete from board where board_no=#{boardNo}
     </delete>
 
 

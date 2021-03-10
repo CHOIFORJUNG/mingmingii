@@ -2,6 +2,7 @@ package com.example.demo3.controller;
 
 import com.example.demo3.service.BoardService;
 import com.example.demo3.vo.BoardVO;
+import com.example.demo3.vo.ReplyVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ public class BoardController {
 
 	@Autowired
 	private BoardService bsvc;
+	private ReplyVO rvo;
 
 	@GetMapping(value = "/list")
 	public String list(Model model) {
@@ -37,6 +39,7 @@ public class BoardController {
 	@GetMapping(value = "/read")
 	public String reading(@RequestParam("boardNo") int boardNo, Model model){
 		model.addAttribute("BoardVO", bsvc.reading(boardNo));
+		model.addAttribute("ReplyVO", rvo);
 		return "thymeleaf/read";
 	}
 
