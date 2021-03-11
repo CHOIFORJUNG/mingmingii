@@ -26,4 +26,9 @@ public class ReplyServiceImpl implements ReplyService {
     public List<ReplyVO> list(int boardNo) {
         return rdao.reRead(boardNo);
     }
+
+    @Override
+    public void reDelete(int replyNo) {
+        rdao.reDelete(replyNo);
+    }
 }

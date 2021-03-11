@@ -9,4 +9,6 @@ public interface ReplyDAO {
     void reInsert(ReplyVO rvo);
 
     List<ReplyVO> reRead(int boardNo);
+
+    void reDelete(int replyNo);
 }

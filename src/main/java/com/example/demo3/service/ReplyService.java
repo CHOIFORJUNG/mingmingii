@@ -9,4 +9,5 @@ public interface ReplyService {
 
      void reWrite(ReplyVO rvo);
      List<ReplyVO> list(int boardNo);
+     void reDelete(int boardNo);
 }

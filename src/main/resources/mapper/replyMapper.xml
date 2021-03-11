@@ -14,9 +14,12 @@
     </select>
 
     <insert id="reInsert" parameterType="com.example.demo3.vo.ReplyVO">
-        insert into reply(reply_no, reply_contents, reply_writer)
-        value (${replyNo},${replyContents},${replyWriter})
-        where board_no = #{boardNo}
+        insert into reply(board_no, reply_contents, reply_writer)
+        values (#{boardNo},#{replyContents},#{replyWriter})
     </insert>
+
+    <delete id="reDelete" >
+        delete from reply where reply_No = #{replyNo}
+    </delete>
 
 </mapper>

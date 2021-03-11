@@ -26,6 +26,38 @@
         <ul id="reply" style="list-style:none;">
         </ul>
     </div>
+<!-- 댓글입력창 -->
+<div class="forreplyinput">
+    <div>
+        <input class="form-control" type="text" name="replyWriter"
+               id="writer" placeholder="Your Name"/>
+    </div>
+    <div>
+        <textarea class="form-control" name="replyContents"
+                  id="content" placeholder="Your Message" rows="5"
+                  data-rule="required" data-msg="Please write something for us"></textarea>
+        <div class="validate"></div>
+    </div>
+    <div class="loading"></div>
+    <div class="error-message"></div>
+
+    <div class="form-send" style="margin-top:10px">
+        <button id="submitBtn" class="btn btn-large">댓글작성</button>
+    </div>
+</div>
+
+ <div id = "modifyDiv" style="" class="modal-fade">
+    <div>
+        <input type="text" name="replyContents" size="60">
+    </div>
+
+    <div align="center">
+         <button type="button" id="reModifyBtn">수정</button>
+         <button type="button" id="reDelBtn">삭제</button>
+         <button type="button" id="closeBtn">닫기</button>
+    </div>
+</div>
+
 <script>
     $(document).ready(function () {
     var boardNo = [[${BoardVO.boardNo}]];
@@ -44,6 +76,7 @@
                 +"<h4>"+ this.replyNo +"</h4>"
                 +"<h4>"+ this.replyWriter + "</h4>"
                 +"<blockquote>"+ this.replyContents +"</blockquote>"
+                +"<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#modifyDiv'>수정</button>"
                 +"</li>"
                 +"<hr/>";
         });
@@ -51,7 +84,89 @@
         $("#reply").html(str);
 
     });
+        $("#reDelBtn").on("click", function(){
+            var replyNo = this.replyNo;
+            console.log("replyNo!!"+ replyNo);
+
+            $.ajax({
+                type:'delete',
+                url:'/replies/'+replyNo,
+                headers :{
+                    "Content-Type" : "application/json",
+                    "X-HTTP-Method-Override" : "DELETE"
+                },
+                dataType: 'text',
+                data : JSON.stringify({
+                    replyNo: replyNo
+                }),
+                success: function(result){
+                    console.log("result:" + result);
+                    if(result == 'Success'){
+                        alert("삭제 성공!!!");
+                        //$("#modifyDiv").hide("slow");  // Modal 닫기
+                        $("#modifyDiv").modal('hide');  // Modal 닫기 (지원)
+                        //reListAll(); // 댓글 목록 갱신
+                    }
+                }
+
+            });// ajax
+        }); // #reDelBtn
     });
+
+    // $("#deleteDiv").on("click", function(){
+    //
+    //     var replyNo = this.replyNo;
+    //
+    //     $.ajax({
+    //         type:'delete',
+    //         url:'/replies/'+replyNo,
+    //         headers :{
+    //             "Content-Type" : "application/json",
+    //             "X-HTTP-Method-Override" : "DELETE"
+    //         },
+    //         dataType: 'text',
+    //         success: function(result){
+    //             console.log("result:" + result);
+    //             if(result == 'Success'){
+    //                 alert("삭제 성공!!!");
+    //                 //$("#modifyDiv").hide("slow");  // Modal 닫기
+    //                 $("#modifyDiv").modal('hide');  // Modal 닫기 (지원)
+    //                 //reListAll(); // 댓글 목록 갱신
+    //             }
+    //         }
+    //
+    //     });// ajax
+    // }); // #reDelBtn
+</script>
+
+<script>
+//댓글 입력
+
+$("#submitBtn").on("click", function () {
+var reWriter = $("#writer").val();
+var reContents = $("#content").val();
+var boardNo = [[${BoardVO.boardNo}]]; //타임리프형식으로 써줘야한다.
+$.ajax({
+type: 'post',
+url: '/replies',
+headers: {
+"Content-Type": "application/json",
+"X-HTTP-Method-Override": "POST"
+},
+dataType: 'text', //받는부분
+data : JSON.stringify({ //보내는부분
+boardNo: boardNo,
+replyWriter: reWriter,
+replyContents: reContents
+}),
+success: function(result) {
+if (result == 'Success') {
+$("#writer").val("");
+$("#content").val("");
+}
+}
+})
+})
 </script>
 
 

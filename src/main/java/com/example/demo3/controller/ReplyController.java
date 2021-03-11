@@ -23,9 +23,17 @@ public class ReplyController {
     private ReplyService rsvc;
 
     @PostMapping(value = "")
-    public void reRegist(ReplyVO rvo){
+    public ResponseEntity<String> reRegist(@RequestBody ReplyVO rvo){
 
-        rsvc.reWrite(rvo);
+        ResponseEntity<String> entity = null;
+        try {
+            rsvc.reWrite(rvo);
+            entity = new ResponseEntity<String>("Success", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return entity;
     }
 
     @GetMapping(value = "/all/{boardNo}")
@@ -39,6 +47,19 @@ public class ReplyController {
         }catch (Exception e){
             e.printStackTrace();
             entity = new ResponseEntity<Map<String,Object>>(HttpStatus.BAD_REQUEST);
+        }
+        return entity;
+    }
+
+    @DeleteMapping(value = "/{replyNo}")
+    public ResponseEntity<String> reDelete(@PathVariable("replyNo") int replyNo){
+        ResponseEntity<String> entity = null;
+        try {
+            rsvc.reDelete(replyNo);
+            entity = new ResponseEntity<String>("Success", HttpStatus.OK);
+        } catch (Exception e){
+            e.printStackTrace();
+            entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
         return entity;
     }

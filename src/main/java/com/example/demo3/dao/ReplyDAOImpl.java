@@ -29,4 +29,9 @@ public class ReplyDAOImpl implements ReplyDAO {
     public List<ReplyVO> reRead(int boardNo){
         return sqlSession.selectList("reRead", boardNo);
     }
+
+    @Override
+    public void reDelete(int replyNo){
+        sqlSession.delete("reDelete", replyNo);
+    };
 }
