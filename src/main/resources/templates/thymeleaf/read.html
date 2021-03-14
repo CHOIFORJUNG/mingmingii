@@ -1,6 +1,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:id="http://www.w3.org/1999/xhtml">
 
-<head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Hello thymeleaf</title>
     <link rel="stylesheet" th:href="@{/css/board.css}">
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
@@ -11,21 +12,21 @@
 <!--</form>-->
 
 
-    <div class="container">
-        <p>글번호 : [[${BoardVO.boardNo}]]</p>
-        <p>작성자 : [[${BoardVO.userId}]]</p>
-        <p>제목 : [[${BoardVO.boardTitle}]]</p>
-        <p>내용 : [[${BoardVO.boardContents}]]</p>
-        <button th:onclick="deleteBoard([[${BoardVO.boardNo}]])">삭제하기</button>
-        <button th:onclick="modifyBoard([[${BoardVO.boardNo}]])">수정하기</button>
-    </div>
+<div class="container">
+    <p>글번호 : [[${BoardVO.boardNo}]]</p>
+    <p>작성자 : [[${BoardVO.userId}]]</p>
+    <p>제목 : [[${BoardVO.boardTitle}]]</p>
+    <p>내용 : [[${BoardVO.boardContents}]]</p>
+    <button th:onclick="deleteBoard([[${BoardVO.boardNo}]])">삭제하기</button>
+    <button th:onclick="modifyBoard([[${BoardVO.boardNo}]])">수정하기</button>
+</div>
 
-    <div>
-        <h4>댓글목록</h4>
-        <!-- 댓글목록 -->
-        <ul id="reply" style="list-style:none;">
-        </ul>
-    </div>
+<div>
+    <h4>댓글목록</h4>
+    <!-- 댓글목록 -->
+    <ul id="reply" style="list-style:none;">
+    </ul>
+</div>
 <!-- 댓글입력창 -->
 <div class="forreplyinput">
     <div>
@@ -46,73 +47,154 @@
     </div>
 </div>
 
- <div id = "modifyDiv" style="" class="modal-fade">
-    <div>
-        <input type="text" name="replyContents" size="60">
-    </div>
 
-    <div align="center">
-         <button type="button" id="reModifyBtn">수정</button>
-         <button type="button" id="reDelBtn">삭제</button>
-         <button type="button" id="closeBtn">닫기</button>
+<div class="modal fade" id="modifyDiv">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span class='title-dialog'></span>번 댓글 편집창
+                </h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!--   Modal body -->
+            <div class="modal-body">
+                <input class="form-control" type="text" id="replyWriter" size="8" readonly="readonly">
+            </div>
+            <div class="modal-body">
+                <input class="form-control" type="text" id="replyContents" size="60" name="reContents">
+            </div>
+            <div align="center">
+                <button type="button" class="btn btn-info" id="reModifyBtn">수정</button>
+                <button type="button" class="btn btn-danger" id="reDelBtn">삭제</button>
+            </div>
+            <!--    Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"
+                        data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
     </div>
 </div>
 
+
+
 <script>
+
     $(document).ready(function () {
-    var boardNo = [[${BoardVO.boardNo}]];
-    console.log("boardNo=" + boardNo);
 
-    $.getJSON("/replies/all/" + boardNo, function (data){
-        console.log("결과는 =" + JSON.stringify(data));
-        console.log((data.replyList.length));
-        var str ="";
+        var boardNo = [[${BoardVO.boardNo}]];
+        console.log("boardNo=" + boardNo);
 
-        $(data.replyList).each(function () {
-            var replyWriter = "'"+ this.replyWriter+"'";
-            console.log("replyWriter!!"+replyWriter);
+        $.getJSON("/replies/all/" + boardNo, function (data) {
+            console.log("결과는 =" + JSON.stringify(data));
+            console.log((data.replyList.length));
+            var str = "";
 
-            str +="<li data-replyNo='"+ this.replyNo +"' class='replyList' style='text-align:left;'>"
-                +"<h4>"+ this.replyNo +"</h4>"
-                +"<h4>"+ this.replyWriter + "</h4>"
-                +"<blockquote>"+ this.replyContents +"</blockquote>"
-                +"<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#modifyDiv'>수정</button>"
-                +"</li>"
-                +"<hr/>";
+            $(data.replyList).each(function () {
+                var replyWriter = "'" + this.replyWriter + "'";
+                console.log("replyWriter!!" + replyWriter);
+
+                str += "<li data-replyNo='" + this.replyNo + "' class='replyList' style='text-align:left;'>"
+                    + "<h4>" + this.replyNo + "</h4>"
+                    + "<h4>" + this.replyWriter + "</h4>"
+                    + "<blockquote>" + this.replyContents + "</blockquote>"
+                    + "<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#modifyDiv'>수정</button>"
+                    + "</li>"
+                    + "<hr/>";
+
+            $("#reply").html(str);
+            })
+        })
+
+        $("#reply").on("click", ".replyList button", function(){  // 댓글 옆에 수정버튼 클릭 시 모달 창
+            var li = $(this).parent(); /* li 선택 */
+            var replyNo = li.attr("data-replyNo"); /*data-rebno값 얻어오기*/
+            //	var reContent = li.text();
+
+            //alert("댓글번호 : "+rebno+"  수정할 내용 : "+reContent);
+            $(".title-dialog").html(replyNo);
+            //	$("#reContent").val(reContent);
+            //	$("#modifyDiv").show("slow");
+
+            /*지원추가*/
+            var replyWriter = $(this).parent().find('h4').text();
+            var replyContents = $(this).prev().text();
+
+            console.log("내용");
+            console.log(replyWriter);
+            console.log(replyContents);
+
+            $('#replyWriter').val(replyWriter);
+            $('#replyContents').val(replyContents);
+
         });
 
-        $("#reply").html(str);
-
-    });
-        $("#reDelBtn").on("click", function(){
-            var replyNo = this.replyNo;
-            console.log("replyNo!!"+ replyNo);
+        $("#reDelBtn").on("click", function () {
+            var replyNo = $(".title-dialog").html();
 
             $.ajax({
-                type:'delete',
-                url:'/replies/'+replyNo,
-                headers :{
-                    "Content-Type" : "application/json",
-                    "X-HTTP-Method-Override" : "DELETE"
+                type: 'delete',
+                url: '/replies/delete/' + replyNo,
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-HTTP-Method-Override": "DELETE"
                 },
                 dataType: 'text',
-                data : JSON.stringify({
+                data: JSON.stringify({
                     replyNo: replyNo
                 }),
+                success: function (result) {
+                    console.log("result:" + result);
+                    if (result == 'Success') {
+                        alert("삭제 성공!!!");
+                        //$("#modifyDiv").hide("slow");  // Modal 닫기
+                      //  $("#modifyDiv").modal('hide');  // Modal 닫기 (지원)
+                        location.reload();
+                    }
+                }
+
+            })// ajax
+        })
+        // 수정 처리
+        $("#reModifyBtn").on("click", function(){
+
+            var replyNo = $(".title-dialog").html();
+            var replyContents = $(this).parents().find('#replyContents').val();  // 댓글의 내용 가져오기
+
+            console.log("수정할 내용====");
+            console.log(replyNo);
+            console.log(replyContents);
+
+            $.ajax({
+                type:'put',
+                url:'replies/update/'+replyNo,
+                headers :{
+                    "Content-Type" : "application/json",
+                    "X-HTTP-Method-Override" : "PUT"
+                },
+                data:JSON.stringify({replyContents:replyContents}),
+                dataType: 'text',
                 success: function(result){
                     console.log("result:" + result);
                     if(result == 'Success'){
-                        alert("삭제 성공!!!");
-                        //$("#modifyDiv").hide("slow");  // Modal 닫기
-                        $("#modifyDiv").modal('hide');  // Modal 닫기 (지원)
-                        //reListAll(); // 댓글 목록 갱신
+                        alert("수정 성공!!!");
+                        //$("#modifyDiv").hide("slow");
+                        //$("#modifyDiv").modal('hide');  // Modal 닫기
+
+                        location.reload();		//reload!! 이런식으로 닫히고 새로고침 하게 정지원씨가 해주었음!!ㅋㅋㅋㅋㅋ
+                        $(".modal-dialog").modal('hide');
+                        //reListAll();  // 댓글 목록 갱신
                     }
                 }
 
             });// ajax
-        }); // #reDelBtn
-    });
-
+        }); // #reModifyBtn
+    })
     // $("#deleteDiv").on("click", function(){
     //
     //     var replyNo = this.replyNo;
@@ -140,46 +222,46 @@
 </script>
 
 <script>
-//댓글 입력
+    //댓글 입력
 
-$("#submitBtn").on("click", function () {
-var reWriter = $("#writer").val();
-var reContents = $("#content").val();
-var boardNo = [[${BoardVO.boardNo}]]; //타임리프형식으로 써줘야한다.
-$.ajax({
-type: 'post',
-url: '/replies',
-headers: {
-"Content-Type": "application/json",
-"X-HTTP-Method-Override": "POST"
-},
-dataType: 'text', //받는부분
-data : JSON.stringify({ //보내는부분
-boardNo: boardNo,
-replyWriter: reWriter,
-replyContents: reContents
-}),
-success: function(result) {
-if (result == 'Success') {
-$("#writer").val("");
-$("#content").val("");
-}
-}
-})
-})
+    $("#submitBtn").on("click", function () {
+        var reWriter = $("#writer").val();
+        var reContents = $("#content").val();
+        var boardNo = [[${BoardVO.boardNo}]]; //타임리프형식으로 써줘야한다.
+        $.ajax({
+            type: 'post',
+            url: '/replies',
+            headers: {
+                "Content-Type": "application/json",
+                "X-HTTP-Method-Override": "POST"
+            },
+            dataType: 'text', //받는부분
+            data: JSON.stringify({ //보내는부분
+                boardNo: boardNo,
+                replyWriter: reWriter,
+                replyContents: reContents
+            }),
+            success: function (result) {
+                if (result == 'Success') {
+                    $("#writer").val("");
+                    $("#content").val("");
+                }
+            }
+        })
+    })
 </script>
 
 
 <script>
-    function deleteBoard(boardNo){
-        if (boardNo != null){
-            $(location).attr('href','/delete?boardNo='+boardNo);
+    function deleteBoard(boardNo) {
+        if (boardNo != null) {
+            $(location).attr('href', '/delete?boardNo=' + boardNo);
         }
     }
 
-    function modifyBoard(boardNo){
-        if (boardNo != null){
-            $(location).attr('href','/update?boardNo='+boardNo)
+    function modifyBoard(boardNo) {
+        if (boardNo != null) {
+            $(location).attr('href', '/update?boardNo=' + boardNo)
         }
     }
 

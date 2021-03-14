@@ -33,5 +33,12 @@ public class ReplyDAOImpl implements ReplyDAO {
     @Override
     public void reDelete(int replyNo){
         sqlSession.delete("reDelete", replyNo);
-    };
+    }
+
+    @Override
+    public void reUpdate(ReplyVO rvo) {
+         sqlSession.update("reUpdete", rvo);
+    }
+
+    ;
 }

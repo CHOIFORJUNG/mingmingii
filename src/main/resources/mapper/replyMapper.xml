@@ -19,7 +19,15 @@
     </insert>
 
     <delete id="reDelete" >
-        delete from reply where reply_No = #{replyNo}
+        delete from reply where reply_no = #{replyNo}
     </delete>
+
+    <update id="reUpdete" parameterType="com.example.demo3.vo.ReplyVO">
+
+        update reply set reply_contents = #{replyContents}
+        where reply_no = #{replyNo}
+
+
+    </update>
 
 </mapper>

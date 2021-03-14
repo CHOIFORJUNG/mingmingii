@@ -11,4 +11,6 @@ public interface ReplyDAO {
     List<ReplyVO> reRead(int boardNo);
 
     void reDelete(int replyNo);
+
+    void reUpdate(ReplyVO rvo);
 }

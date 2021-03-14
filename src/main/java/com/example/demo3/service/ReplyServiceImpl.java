@@ -31,4 +31,9 @@ public class ReplyServiceImpl implements ReplyService {
     public void reDelete(int replyNo) {
         rdao.reDelete(replyNo);
     }
+
+    @Override
+    public void reUpdate(ReplyVO rvo) {
+        rdao.reUpdate(rvo);
+    }
 }
