@@ -13,7 +13,9 @@
                     <td th:text="${product.userId}"></td>
                     <td> <a th:href="@{/read(boardNo=${product.boardNo})}">
                         [[${product.boardTitle}]]</a>
+                        <span class="badge bg-teal"><i class="fa fa-comment-o"></i>+ [[${product.replyCnt}]] </span>
                     </td>
+                    <td th:text="${product.viewCnt}"></td>
                     </tr>
             </table>
             <a th:href="@{/insert}"><button>글쓰기</button></a>

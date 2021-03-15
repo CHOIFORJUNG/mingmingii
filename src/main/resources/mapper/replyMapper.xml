@@ -30,4 +30,10 @@
 
     </update>
 
+    <select id="getBoardNo" resultType="int">
+        select
+            board_no as boardNo
+        from reply
+        where reply_no = #{replyNo}
+    </select>
 </mapper>

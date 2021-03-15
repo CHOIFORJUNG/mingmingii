@@ -5,7 +5,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO{
@@ -35,5 +37,19 @@ public class BoardDAOImpl implements BoardDAO{
     @Override
     public void update(BoardVO bvo) {
         sqlSession.update("update", bvo);
+    }
+
+    @Override
+    public void updateReplyCnt(Integer boardNo, int amount) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("boardNo", boardNo);
+        paramMap.put("amount", amount);
+
+        sqlSession.update("updateReplyCnt", paramMap);
+    }
+
+    @Override
+    public void updateViewCnt(Integer boardNo) {
+        sqlSession.update("updateViewCnt", boardNo);
     }
 }

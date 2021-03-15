@@ -6,16 +6,18 @@ import com.example.demo3.vo.BoardVO;
 
 public interface BoardDAO {
 
-	 List<BoardVO> list();
+    List<BoardVO> list();
 
-	 void insert(BoardVO bvo);
+    void insert(BoardVO bvo);
 
-	 BoardVO read(Integer boardNo);
+    BoardVO read(Integer boardNo);
 
-	 void delete(Integer boardNo);
+    void delete(Integer boardNo);
 
-	 void update(BoardVO bvo);
+    void update(BoardVO bvo);
 
+    void updateReplyCnt(Integer boardNo, int amount);
 
-	
+    void updateViewCnt(Integer boardNo);
+
 }

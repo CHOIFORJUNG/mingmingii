@@ -30,6 +30,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public BoardVO reading(Integer boardNo) { //받는쪽 파라미터()이니 타입을 써주고
+		bdao.updateViewCnt(boardNo);
 		return bdao.read(boardNo);			//호출하는쪽 파라미터()이니 값만써준다.
 		}
 

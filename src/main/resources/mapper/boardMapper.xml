@@ -7,6 +7,9 @@
         <result column="user_id" property="userId"/>
         <result column="board_title" property="boardTitle"/>
         <result column="board_contents" property="boardContents"/>
+        <result column="reply_cnt" property="replyCnt"/>
+        <result column="reg_date" property="regDate"/>
+        <result column="view_cnt" property="viewCnt"/>
     </resultMap>
 
     <select id="list" resultType="com.example.demo3.vo.BoardVO">
@@ -14,9 +17,26 @@
             board_no as boardNo,
             user_id as userId,
             board_title as boardTitle,
-            board_contents as boardContents
+            board_contents as boardContents,
+            reply_cnt as replyCnt,
+            reg_date as regDate,
+            view_cnt as viewCnt
         from board
+        where board_no > 0
+        order by board_No desc, reg_date desc
     </select>
+
+    <update id="updateReplyCnt">
+        update board
+        set reply_cnt = reply_cnt + #{amount}
+        where board_no = #{boardNo}
+    </update>
+
+    <update id="updateViewCnt">
+        update board
+        set view_cnt = view_cnt + 1
+        where board_no = #{boardNo}
+    </update>
 
     <insert id="insert" parameterType="com.example.demo3.vo.BoardVO">
         insert into board (board_no, user_id, board_title, board_contents)

@@ -13,4 +13,6 @@ public interface ReplyDAO {
     void reDelete(int replyNo);
 
     void reUpdate(ReplyVO rvo);
+
+    int getBoardNo(int replyNo);
 }

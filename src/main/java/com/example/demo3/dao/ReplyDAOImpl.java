@@ -40,5 +40,8 @@ public class ReplyDAOImpl implements ReplyDAO {
          sqlSession.update("reUpdete", rvo);
     }
 
-    ;
+    @Override
+    public int getBoardNo(int replyNo) {
+        return sqlSession.selectOne("getBoardNo", replyNo);
+    }
 }
