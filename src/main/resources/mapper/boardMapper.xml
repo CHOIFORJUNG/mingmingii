@@ -23,7 +23,7 @@
             view_cnt as viewCnt
         from board
         where board_no > 0
-        order by board_No desc, reg_date desc
+        order by board_no desc, reg_date desc
     </select>
 
     <update id="updateReplyCnt">
