@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo3.dao.UserDAO">
+
+    <resultMap type="com.example.demo3.vo.UserVO" id="uvo">
+        <result column="user_id" property="userId"/>
+        <result column="user_pw" property="userPw"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_email" property="userEmail"/>
+    </resultMap>
+
+<!--    <resultMap type="com.example.demo3.vo.LoginDTO" id="ldto">-->
+<!--        <result column="user_id" property="userId"/>-->
+<!--        <result column="user_pw" property="userPw"/>-->
+<!--    </resultMap>-->
+
+
+    <insert id="regist" parameterType="com.example.demo3.vo.UserVO">
+        insert into usertbl(user_id,
+                            user_pw,
+                            user_name,
+                            user_email)
+        values (#{userId},
+                #{userPw},
+                #{userName},
+                #{userEmail})
+    </insert>
+
+    <select id="login" resultMap="uvo" >
+        select * from usertbl
+        where user_id = #{userId}
+    </select>
+
+
+</mapper>

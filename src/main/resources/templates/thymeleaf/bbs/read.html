@@ -1,16 +1,91 @@
-function getboardNo (boardVO){
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:id="http://www.w3.org/1999/xhtml">
 
-    console.log(boardVO);
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Hello thymeleaf</title>
+    <link rel="stylesheet" th:href="@{/css/board.css}">
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+</head>
+<body>
+<!--<form role="form" method="post" >-->
+<!--    <input type="hidden" name="boardNo" value="${BoardVO.boardNo}"/>-->
+<!--</form>-->
+<input type="button" id="test" value="Hello world" />
 
+<div class="container">
+    <p>글번호 : [[${BoardVO.boardNo}]]</p>
+    <p>작성자 : [[${BoardVO.userId}]]</p>
+    <p>제목 : [[${BoardVO.boardTitle}]]</p>
+    <p>내용 : [[${BoardVO.boardContents}]]</p>
+    <button th:onclick="deleteBoard([[${BoardVO.boardNo}]])">삭제하기</button>
+    <button th:onclick="modifyBoard([[${BoardVO.boardNo}]])">수정하기</button>
+</div>
+<div>
+    <h4>댓글목록</h4>
+    <!-- 댓글목록 -->
+    <ul id="reply" style="list-style:none;">
+    </ul>
+</div>
+<!-- 댓글입력창 -->
+<div class="forreplyinput">
+    <div>
+        <input class="form-control" type="text" name="replyWriter"
+               id="writer" placeholder="Your Name"/>
+    </div>
+    <div>
+        <textarea class="form-control" name="replyContents"
+                  id="content" placeholder="Your Message" rows="5"
+                  data-rule="required" data-msg="Please write something for us"></textarea>
+        <div class="validate"></div>
+    </div>
+    <div class="loading"></div>
+    <div class="error-message"></div>
 
-    console.log(boardNo);
+    <div class="form-send" style="margin-top:10px">
+        <button id="submitBtn" onclick="location.reload()" class="btn btn-large">댓글작성</button>
+    </div>
+</div>
 
-    var test = document.getElementById('test');
-    test.addEventListener('click', function () {
-        alert('Hello world');
-    })
+<div class="modal fade" id="modifyDiv">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span class='title-dialog'></span>번 댓글 편집창
+                </h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!--   Modal body -->
+            <div class="modal-body">
+                <input class="form-control" type="text" id="replyWriter" size="8" readonly="readonly">
+            </div>
+            <div class="modal-body">
+                <input class="form-control" type="text" id="replyContents" size="60" name="reContents">
+            </div>
+            <div align="center">
+                <button type="button" class="btn btn-info" id="reModifyBtn">수정</button>
+                <button type="button" class="btn btn-danger" id="reDelBtn">삭제</button>
+            </div>
+            <!--    Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"
+                        data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
 
     $(document).ready(function () {
+
+        var boardNo = [[${BoardVO.boardNo}]];
+
+
         $.getJSON("/replies/all/" + boardNo, function (data) {
             console.log("결과는 =" + JSON.stringify(data));
             console.log((data.replyList.length));
@@ -33,7 +108,7 @@ function getboardNo (boardVO){
         })
 
 
-        $("#reply").on("click", ".replyList button", function () {  // 댓글 옆에 수정버튼 클릭 시 모달 창
+        $("#reply").on("click", ".replyList button", function(){  // 댓글 옆에 수정버튼 클릭 시 모달 창
             var li = $(this).parent(); /* li 선택 */
             var replyNo = li.attr("data-replyNo"); /*data-rebno값 얻어오기*/
             //	var reContent = li.text();
@@ -85,7 +160,7 @@ function getboardNo (boardVO){
         })
 
         // 수정 처리
-        $("#reModifyBtn").on("click", function () {
+        $("#reModifyBtn").on("click", function(){
 
             var replyNo = $(".title-dialog").html();
             var replyContents = $(this).parents().find('#replyContents').val();  // 댓글의 내용 가져오기
@@ -95,17 +170,17 @@ function getboardNo (boardVO){
             console.log(replyContents);
 
             $.ajax({
-                type: 'put',
-                url: 'replies/update/' + replyNo,
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-HTTP-Method-Override": "PUT"
+                type:'put',
+                url:'replies/update/'+replyNo,
+                headers :{
+                    "Content-Type" : "application/json",
+                    "X-HTTP-Method-Override" : "PUT"
                 },
-                data: JSON.stringify({replyContents: replyContents}),
+                data:JSON.stringify({replyContents:replyContents}),
                 dataType: 'text',
-                success: function (result) {
+                success: function(result){
                     console.log("result:" + result);
-                    if (result == 'Success') {
+                    if(result == 'Success'){
                         alert("수정 성공!!!");
                         //$("#modifyDiv").hide("slow");
                         //$("#modifyDiv").modal('hide');  // Modal 닫기
@@ -143,13 +218,15 @@ function getboardNo (boardVO){
     //
     //     });// ajax
     // }); // #reDelBtn
+</script>
 
+<script>
     //댓글 입력
 
     $("#submitBtn").on("click", function () {
         var reWriter = $("#writer").val();
         var reContents = $("#content").val();
-        var boardNo = '${BoardVO.boardNo}'; //타임리프형식으로 써줘야한다.
+        var boardNo = [[${BoardVO.boardNo}]]; //타임리프형식으로 써줘야한다.
         $.ajax({
             type: 'post',
             url: '/replies',
@@ -171,8 +248,10 @@ function getboardNo (boardVO){
             }
         })
     })
+</script>
 
 
+<script>
     function deleteBoard(boardNo) {
         if (boardNo != null) {
             $(location).attr('href', '/delete?boardNo=' + boardNo);
@@ -184,4 +263,20 @@ function getboardNo (boardVO){
             $(location).attr('href', '/update?boardNo=' + boardNo)
         }
     }
-}
+
+</script>
+<script type="text/javascript" src="/js/readpage.js" >
+</script>
+<!--왜 아래에다 땡기니까 되는거지?-->
+
+    <script>
+        /*<![CDATA[*/
+        let boardVO = '[[${BoardVO}]]';
+        console.log("boardVO = " + boardVO);
+
+         getboardNo(boardVO);
+    </script>
+</body>
+
+</html>
+
